@@ -70,8 +70,8 @@
     - httpd
     - cobblerd
 
-- name: cobbler get-loaders
-  shell: cobbler get-loaders
+#- name: cobbler get-loaders
+#  shell: cobbler get-loaders
 
 #---------------
 # import distros
