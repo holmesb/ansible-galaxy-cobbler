@@ -29,11 +29,11 @@ cobbler_web_user_pwd:
 
 
 # import distros
-cobbler_distros:
-  - distro_name: CentOS-7.1-sda
-    device_or_iso_path: /dev/sr0
-    arch: x86_64
-    kickstart_file_name: centos7-customized-sda
+#cobbler_distros:
+#  - distro_name: CentOS-7.1-sda
+#    device_or_iso_path: /dev/sr0
+#    arch: x86_64
+#    kickstart_file_name: centos7-customized-sda
 
 # public keys for root.(optional)
 # cobbler_root_public_keys:
