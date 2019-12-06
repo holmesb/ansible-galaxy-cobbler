@@ -19,7 +19,12 @@ cobbler_subnet_mask: 255.255.255.0
 cobbler_subnet2: 
 cobbler_netmask2: 
 cobbler_dynamic_bootp_start2: 
-cobbler_dynamic_bootp_end2: 
+cobbler_dynamic_bootp_end2:
+
+cobbler_subnet3:
+cobbler_netmask3:
+cobbler_dynamic_bootp_start3:
+cobbler_dynamic_bootp_end3:
 
 # cobbler web
 cobbler_install_web: true
