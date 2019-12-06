@@ -48,8 +48,38 @@ option pxe-system-type code 93 = unsigned integer 16;
     }
 {% endif %}
 
-subnet {{ cobbler_subnet }} netmask {{ cobbler_netmask }} {
-     {% if cobbler_routers is defined %}
+{% if cobbler_subnet2 is defined %}
+    subnet {{ cobbler_subnet2 }} netmask {{ cobbler_netmask2 }} {
+    {% if cobbler_routers2 is defined %}
+        option routers    {{ cobbler_routers2 }};
+    {% endif %}
+    {% if cobbler_domain_name_servers is defined %}
+        option domain-name-servers    {{ cobbler_domain_name_servers }};
+    {% endif %}
+    {% if cobbler_netmask2 is defined %}
+        option subnet-mask    {{ cobbler_netmask2 }};
+    {% endif %}
+    range dynamic-bootp        {{ cobbler_dynamic_bootp_start2 }} {{ cobbler_dynamic_bootp_end2 }};
+    default-lease-time         21600;
+    max-lease-time             43200;
+    next-server                $next_server;
+    class "pxeclients" {
+        match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
+        if option pxe-system-type = 00:02 {
+            filename "ia64/elilo.efi";
+            } else if option pxe-system-type = 00:06 {
+                filename "grub/grub-x86.efi";
+            } else if option pxe-system-type = 00:07 {
+                filename "grub/grub-x86_64.efi";
+            } else {
+                filename "pxelinux.0";
+            }
+        }
+    }
+{% endif %}
+
+     subnet {{ cobbler_subnet }} netmask {{ cobbler_netmask }} {
+{% if cobbler_routers is defined %}
      option routers    {{ cobbler_routers }};
      {% endif %}
      {% if cobbler_domain_name_servers is defined %}
@@ -75,35 +105,6 @@ subnet {{ cobbler_subnet }} netmask {{ cobbler_netmask }} {
           }
      }
 }
-{% if cobbler_subnet2 is defined %}
-subnet {{ cobbler_subnet2 }} netmask {{ cobbler_netmask2 }} {
-     {% if cobbler_routers2 is defined %}
-     option routers    {{ cobbler_routers2 }};
-     {% endif %}
-     {% if cobbler_domain_name_servers is defined %}
-     option domain-name-servers    {{ cobbler_domain_name_servers }};
-     {% endif %}
-     {% if cobbler_netmask2 is defined %}
-     option subnet-mask    {{ cobbler_netmask2 }};
-     {% endif %}
-     range dynamic-bootp        {{ cobbler_dynamic_bootp_start2 }} {{ cobbler_dynamic_bootp_end2 }};
-     default-lease-time         21600;
-     max-lease-time             43200;
-     next-server                $next_server;
-     class "pxeclients" {
-          match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
-          if option pxe-system-type = 00:02 {
-                  filename "ia64/elilo.efi";
-          } else if option pxe-system-type = 00:06 {
-                  filename "grub/grub-x86.efi";
-          } else if option pxe-system-type = 00:07 {
-                  filename "grub/grub-x86_64.efi";
-          } else {
-                  filename "pxelinux.0";
-          }
-     }
-}
-{% endif %}
 
 
 #for dhcp_tag in $dhcp_tags.keys():
